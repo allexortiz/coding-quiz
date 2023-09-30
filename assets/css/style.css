@@ -4,26 +4,75 @@
     box-sizing: border-box;
 }
 
+:root {
+    --text: blueviolet
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+h3 {
+    color: var(--text);
+    text-align: right;
+    font-size: 1.5em;
+}
+
 body {
     background-color: black;
 }
 
 .title-card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: blueviolet;
-    border: 3px dashed white;
-    font-size: 500%;
+    font-size: 3.5em;
+    text-align: center;
+    color: var(--text);
 }
 
-#start-btn {
-    
+.card-timer {
+    margin: auto;
+    padding: 20px;
+    width: 90vh;
 }
 
-#timer-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
+.timer-text {
+    padding: 55px;
+}
+
+.timer-count {
+    color: var(--text);
+    text-align: right;
+    font-size: 3.5em;
+}
+
+button {
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 20px;
+    letter-spacing: 0.21px;
+    line-height: 16px;
+    max-width: 255px;
+    padding: 20px 20px;
+    text-align: center;
+    transition-duration: 0.15s;
+    transition-property: background-color;
+    transition-timing-function: linear;
+    margin-top: 0.6em;
+}
+
+header {
+    padding: 40px;
+    text-align: center;
+    color: #fff;
+    border-bottom: 30px #879274;
+}
+
+@media screen and (max-width: 504px) {
+    .large-font {
+      font-size: 2em;
+    }
+    .card-timer {
+        height: 200px;
+      }
 }
