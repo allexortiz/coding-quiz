@@ -1,5 +1,6 @@
 var startBtn = document.getElementById("start-btn");
 var timerEl = document.querySelector(".timer-count");
+var questionSection = document.getElementById("question-section");
 
 var timeRemaining = questions.length * 15;
 
