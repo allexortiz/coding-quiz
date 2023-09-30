@@ -8,6 +8,10 @@ function displayTime() {
     timerEl.textContent = timeRemaining;
 }
 
+function displayQuestion(question) {
+    questionSection.textContent = question;
+}
+
 startBtn.addEventListener("click", function (event) {
     event.preventDefault();
 
