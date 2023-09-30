@@ -68,6 +68,11 @@ header {
     border-bottom: 30px #879274;
 }
 
+main {
+    color: var(--text);
+    font-size: 200%;
+}
+
 @media screen and (max-width: 504px) {
     .large-font {
       font-size: 2em;
