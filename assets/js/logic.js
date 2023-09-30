@@ -3,12 +3,21 @@ var questionSection = document.getElementById("question-section");
 var choicesList = document.getElementById("choices-list");
 var timerEl = document.querySelector(".timer-count");
 
- // Keep track of the current question index
+// Keep track of the current question index
 var currentQuestionIndex = 0;
-var timeRemaining = questions.length * 15;
+// var timeRemaining = questions.length * 15;
+var timeRemaining = 10;
 
 function displayTime() {
     timerEl.textContent = timeRemaining;
+
+    if (timeRemaining <= 0) {
+        var wordBlank = document.getElementById("wordBlank");
+        if (wordBlank) {
+            wordBlank.textContent = "GAME OVER";
+            wordBlank.style.display = "block";
+        }
+    }
 }
 
 function displayQuestion(question) {
@@ -36,18 +45,29 @@ function startGame() {
         displayTime();
         timeRemaining--;
 
-        if (timeRemaining <= 0 || currentQuestionIndex >= questions.length - 1) {
+        // Check if the timer has reached 0
+        if (timeRemaining <= 0) {
             clearInterval(timeInterval);
-            // Optionally, do something when the timer reaches 0 or all questions are answered
-            // var wordBlank = document.getElementById("wordBlank");
-            // if (wordBlank) {
-            //     wordBlank.textContent = "GAME OVER";
-            // }
-            // // Re-enable the start button when the game is over
-            // startBtn.removeAttribute("disabled");
+            var wordBlank = document.getElementById("wordBlank");
+            if (wordBlank) {
+                wordBlank.textContent = "GAME OVER";
+            }
+            // Re-enable the start button when the game is over
+            startBtn.removeAttribute("disabled");
+            return;  // Exit the function to prevent further execution
+        }
+
+        // Check if we've reached the last question
+        if (currentQuestionIndex >= questions.length - 1) {
+            clearInterval(timeInterval);
+            // Optionally, do something when all questions are answered
+            console.log("All questions answered!");
+            // Re-enable the start button when the game is over
+            startBtn.removeAttribute("disabled");
         }
     }, 1000);
 }
+
 
 // Event listener for choices
 choicesList.addEventListener("click", function (event) {
@@ -55,7 +75,7 @@ choicesList.addEventListener("click", function (event) {
     if (selectedIndex !== null) {
         // Handle the user's choice (compare with the correct answer, etc.)
         console.log("User chose:", questions[currentQuestionIndex].Choices[selectedIndex]);
-        
+
         // Move to the next question
         currentQuestionIndex++;
 
@@ -74,6 +94,6 @@ startBtn.addEventListener("click", function (event) {
 
     // Disable the Start button to prevent multiple game instances
     startBtn.setAttribute("disabled", "true");
-    
+
     startGame();
 });

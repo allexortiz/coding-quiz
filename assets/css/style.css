@@ -73,6 +73,14 @@ main {
     font-size: 200%;
 }
 
+#choices-list {
+    line-height: 75px;
+}
+
+#wordBlank {
+    display: none;
+}
+
 @media screen and (max-width: 504px) {
     .large-font {
       font-size: 2em;
