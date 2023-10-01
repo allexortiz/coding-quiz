@@ -22,12 +22,21 @@
         </div>
     </nav>
     <main>
-        <section id="question-section"></section>
-        <ul id="choices-list"></ul>
-        <div id="wordBlank">GAME OVER</div>
+        <div class="question-container">
+            <section id="question-section"></section>
+            <ul id="choices-list"></ul>
+            <h2 id="alert"></h2>
+        </div>
+        <div id="wordBlank">
+            <h1 id="game-over">Game Over!</h1>
+            <label for="initials">Initials</label>
+            <input id="initials" type="text">
+            <h2 id="final-score"></h2>
+            <button id="btn">Submit Score</button>
+        </div>
     </main>
-    <script src="./assets/js/questions.js"></script>
-    <script src="./assets/js/logic.js"></script>
-    <script scr="./assets/js/scores.js"></script>
+    <script type="text/javascript" src="./assets/js/questions.js"></script>
+    <script type="text/javascript" src="./assets/js/logic.js"></script>
+    <script type="text/javascript" src="./assets/js/scores.js"></script>
 </body>
 </html>

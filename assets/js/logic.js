@@ -1,10 +1,15 @@
 var startBtn = document.getElementById("start-btn");
+var alertEl = document.getElementById("alert");
+var btnEl = document.getElementById("btn");
 var questionSection = document.getElementById("question-section");
 var choicesList = document.getElementById("choices-list");
 var timerEl = document.querySelector(".timer-count");
+var questionsContainer = document.querySelector(".question-container");
+var initials = document.getElementById("initials");
 
 // Keep track of the current question index
 var currentQuestionIndex = 0;
+// var timeRemaining = questions.length * 15;
 var timeRemaining = 10;
 
 function displayTime() {
@@ -13,7 +18,7 @@ function displayTime() {
     if (timeRemaining <= 0) {
         var wordBlank = document.getElementById("wordBlank");
         if (wordBlank) {
-            wordBlank.textContent = "GAME OVER";
+            //wordBlank.textContent = "GAME OVER";
             wordBlank.style.display = "block";
         }
     }
@@ -35,10 +40,13 @@ function displayChoices(choices) {
         choicesList.appendChild(choiceItem);
     });
 }
+//var myTimeout;
 
 function startGame() {
+    questionsContainer.style.display = "block"
     // Reset game state
     currentQuestionIndex = 0;
+    // timeRemaining = questions.length * 15;
     timeRemaining = 10;
 
     // Hide the "GAME OVER" message
@@ -46,7 +54,6 @@ function startGame() {
     if (wordBlank) {
         wordBlank.style.display = "none";
     }
-
     // Display the first question
     displayQuestion(questions[currentQuestionIndex]);
 
@@ -58,8 +65,11 @@ function startGame() {
             clearInterval(timeInterval);
             var wordBlank = document.getElementById("wordBlank");
             if (wordBlank) {
-                wordBlank.textContent = "GAME OVER";
                 wordBlank.style.display = "block";
+                //wordBlank.textContent = "GAME OVER";
+                questionsContainer.style.display = "none"
+                //myTimeout = setTimeout(displayHigScorePage, 3000);
+
             }
             // Re-enable the start button when the game is over
             startBtn.removeAttribute("disabled");
@@ -78,12 +88,29 @@ function startGame() {
     }, 1000);
 }
 
+function displayHighScorePage() {
+    window.location.href = "highscores.html";
+    //clearTimeout(myTimeout)
+}
+
 // Event listener for choices
 choicesList.addEventListener("click", function (event) {
     var selectedIndex = event.target.getAttribute("data-index");
     if (selectedIndex !== null) {
         // Handle the user's choice (compare with the correct answer, etc.)
         console.log("User chose:", questions[currentQuestionIndex].Choices[selectedIndex]);
+
+        if (questions[currentQuestionIndex].Choices[selectedIndex] !== questions[currentQuestionIndex].Answer) {
+            alertEl.textContent = "Ooops Wrong Answer ";
+            alertEl.style.backgroundColor = "red";
+            alertEl.style.color = "blueviolet";
+            //reduce your timer count
+            timeRemaining -= 15;
+        } else {
+            alertEl.textContent = "Oh Correct Answer ";
+            alertEl.style.backgroundColor = "green";
+            alertEl.style.color = "blueviolet";
+        }
 
         // Move to the next question
         currentQuestionIndex++;
@@ -92,11 +119,10 @@ choicesList.addEventListener("click", function (event) {
         if (currentQuestionIndex < questions.length) {
             displayQuestion(questions[currentQuestionIndex]);
         } else {
+            displayHighScorePage()
             // Optionally, do something when all questions are answered
             console.log("All questions answered!");
 
-            // Reset the game when all questions are answered
-            resetGame();
         }
     }
 });
@@ -118,3 +144,18 @@ startBtn.addEventListener("click", function (event) {
     // Start the game
     startGame();
 });
+
+btnEl.addEventListener("click", function () {
+    var highscores = JSON.parse(localStorage.getItem("highscores"));
+    if(highscores === null) {
+        highscores = []
+    }
+    var userInitials = {
+        initials: initials.value.trim(),
+        // score: userScore.value
+        score:100
+    }
+    highscores.push(userInitials);
+    localStorage.setItem("highscores", JSON.stringify(highscores));
+    displayHighScorePage();
+})
