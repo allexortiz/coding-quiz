@@ -2,7 +2,6 @@ var startBtn = document.getElementById("start-btn");
 var questionSection = document.getElementById("question-section");
 var choicesList = document.getElementById("choices-list");
 var timerEl = document.querySelector(".timer-count");
-var answer = document.getElementById("answer");
 
 // Keep track of the current question index
 var currentQuestionIndex = 0;
