@@ -20,9 +20,9 @@ h3 {
     font-size: 1.5em;
 }
 
-body {
+/* body {
     background-color: black;
-}
+} */
 
 .title-card {
     font-size: 3.5em;
@@ -82,9 +82,6 @@ main {
 }
 
 @media screen and (max-width: 504px) {
-    .large-font {
-      font-size: 2em;
-    }
     .card-timer {
         height: 200px;
       }

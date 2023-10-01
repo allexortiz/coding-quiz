@@ -2,10 +2,10 @@ var startBtn = document.getElementById("start-btn");
 var questionSection = document.getElementById("question-section");
 var choicesList = document.getElementById("choices-list");
 var timerEl = document.querySelector(".timer-count");
+var answer = document.getElementById("answer");
 
 // Keep track of the current question index
 var currentQuestionIndex = 0;
-// var timeRemaining = questions.length * 15;
 var timeRemaining = 10;
 
 function displayTime() {
@@ -38,12 +38,21 @@ function displayChoices(choices) {
 }
 
 function startGame() {
+    // Reset game state
+    currentQuestionIndex = 0;
+    timeRemaining = 10;
+
+    // Hide the "GAME OVER" message
+    var wordBlank = document.getElementById("wordBlank");
+    if (wordBlank) {
+        wordBlank.style.display = "none";
+    }
+
     // Display the first question
     displayQuestion(questions[currentQuestionIndex]);
 
     var timeInterval = setInterval(function () {
         displayTime();
-        timeRemaining--;
 
         // Check if the timer has reached 0
         if (timeRemaining <= 0) {
@@ -51,23 +60,24 @@ function startGame() {
             var wordBlank = document.getElementById("wordBlank");
             if (wordBlank) {
                 wordBlank.textContent = "GAME OVER";
+                wordBlank.style.display = "block";
             }
             // Re-enable the start button when the game is over
             startBtn.removeAttribute("disabled");
-            return;  // Exit the function to prevent further execution
+            // Exit the function to prevent further execution
+            return;
         }
 
         // Check if we've reached the last question
-        if (currentQuestionIndex >= questions.length - 1) {
+        if (currentQuestionIndex >= questions.length) {
             clearInterval(timeInterval);
-            // Optionally, do something when all questions are answered
-            console.log("All questions answered!");
             // Re-enable the start button when the game is over
             startBtn.removeAttribute("disabled");
         }
+
+        timeRemaining--;
     }, 1000);
 }
-
 
 // Event listener for choices
 choicesList.addEventListener("click", function (event) {
@@ -85,9 +95,20 @@ choicesList.addEventListener("click", function (event) {
         } else {
             // Optionally, do something when all questions are answered
             console.log("All questions answered!");
+
+            // Reset the game when all questions are answered
+            resetGame();
         }
     }
 });
+
+function resetGame() {
+    // Enable the Start button
+    startBtn.removeAttribute("disabled");
+
+    // Start the game
+    startGame();
+}
 
 startBtn.addEventListener("click", function (event) {
     event.preventDefault();
@@ -95,5 +116,6 @@ startBtn.addEventListener("click", function (event) {
     // Disable the Start button to prevent multiple game instances
     startBtn.setAttribute("disabled", "true");
 
+    // Start the game
     startGame();
 });
