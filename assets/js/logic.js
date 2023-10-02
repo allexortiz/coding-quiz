@@ -9,8 +9,7 @@ var initials = document.getElementById("initials");
 
 // Keep track of the current question index
 var currentQuestionIndex = 0;
-// var timeRemaining = questions.length * 15;
-var timeRemaining = 10;
+var timeRemaining = questions.length * 15;
 
 function displayTime() {
     timerEl.textContent = timeRemaining;
@@ -45,11 +44,10 @@ function displayChoices(choices) {
 }
 
 function startGame() {
-    questionsContainer.style.display = "block"
+    questionsContainer.style.display = "block";
     // Reset game state
     currentQuestionIndex = 0;
-    // timeRemaining = questions.length * 15;
-    timeRemaining = 10;
+    timeRemaining = questions.length * 15;
 
     // Hide the "GAME OVER" message and score display initially
     var wordBlank = document.getElementById("wordBlank");
@@ -68,12 +66,10 @@ function startGame() {
             var wordBlank = document.getElementById("wordBlank");
             if (wordBlank) {
                 wordBlank.style.display = "block";
-                //wordBlank.textContent = "GAME OVER";
-                questionsContainer.style.display = "none"
-
+                questionsContainer.style.display = "none";
+                // Re-enable the start button when the game is over
+                startBtn.removeAttribute("disabled");
             }
-            // Re-enable the start button when the game is over
-            startBtn.removeAttribute("disabled");
             // Exit the function to prevent further execution
             return;
         }
@@ -81,8 +77,12 @@ function startGame() {
         // Check if we've reached the last question
         if (currentQuestionIndex >= questions.length) {
             clearInterval(timeInterval);
+
             // Re-enable the start button when the game is over
             startBtn.removeAttribute("disabled");
+
+            // Allow the user to input initials and display the high scores page
+            displayHighScorePage();
         }
 
         timeRemaining--;
@@ -97,8 +97,37 @@ function displayHighScorePage() {
     var finalScoreElement = document.getElementById("final-score");
     finalScoreElement.textContent = "Your Score: " + finalScore;
 
-    // Navigate to the high scores page
-    window.location.href = "highscores.html";
+    // Show the "Game Over" screen
+    var wordBlank = document.getElementById("wordBlank");
+    if (wordBlank) {
+        wordBlank.style.display = "block";
+    }
+
+    // Display the initials input and submit button
+    var initialsInput = document.getElementById("initials");
+    var submitButton = document.getElementById("btn");
+
+    initialsInput.style.display = "block";
+    submitButton.style.display = "block";
+
+    // Add an event listener to the submit button
+    submitButton.addEventListener("click", function () {
+        var highscores = JSON.parse(localStorage.getItem("highscores")) || [];
+
+        // Calculate user's score based on the remaining time
+        var userScore = timeRemaining;
+
+        var userInitials = {
+            initials: initialsInput.value.trim(),
+            score: userScore
+        };
+
+        highscores.push(userInitials);
+        localStorage.setItem("highscores", JSON.stringify(highscores));
+
+        // Redirect to the high scores page
+        window.location.href = "highscores.html";
+    });
 }
 
 // Event listener for choices
@@ -127,10 +156,20 @@ choicesList.addEventListener("click", function (event) {
         if (currentQuestionIndex < questions.length) {
             displayQuestion(questions[currentQuestionIndex]);
         } else {
-            displayHighScorePage()
-            // Optionally, do something when all questions are answered
-            console.log("All questions answered!");
-
+            // Check if the timer has reached 0 or all questions are answered
+            if (timeRemaining <= 0) {
+                // Timer has run out
+                var wordBlank = document.getElementById("wordBlank");
+                if (wordBlank) {
+                    wordBlank.style.display = "block";
+                    questionsContainer.style.display = "none";
+                    // Re-enable the start button when the game is over
+                    startBtn.removeAttribute("disabled");
+                }
+            } else {
+                // All questions are answered
+                displayHighScorePage();
+            }
         }
     }
 });
@@ -139,8 +178,8 @@ function resetGame() {
     // Enable the Start button
     startBtn.removeAttribute("disabled");
 
-     // Calculate user's score based on the remaining time
-     var userScore = timeRemaining
+    // Calculate user's score based on the remaining time
+    var userScore = timeRemaining
 
     // Start the game
     startGame();
@@ -165,7 +204,7 @@ btnEl.addEventListener("click", function () {
     var highscores = JSON.parse(localStorage.getItem("highscores")) || [];
 
     // Calculate user's score based on the remaining time
-    var userScore = timeRemaining
+    var userScore = timeRemaining;
 
     var userInitials = {
         initials: initials.value.trim(),
@@ -174,5 +213,8 @@ btnEl.addEventListener("click", function () {
 
     highscores.push(userInitials);
     localStorage.setItem("highscores", JSON.stringify(highscores));
-    displayHighScorePage();
+
+    // Redirect to the high scores page
+    window.location.href = "highscores.html";
 });
+
