@@ -22,11 +22,13 @@ function printHighscores() {
   }
   
   function clearHighscores() {
+    // Remove highscores from local storage
     window.localStorage.removeItem("highscores");
+     // Optionally, you can reload the page to reflect the cleared highscores
     window.location.reload();
   }
   
-//   document.getElementById("clear").onclick = clearHighscores;
+  document.getElementById("clear-btn").addEventListener("click", clearHighscores);
   
   // run function when page loads
   printHighscores();

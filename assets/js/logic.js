@@ -18,8 +18,11 @@ function displayTime() {
     if (timeRemaining <= 0) {
         var wordBlank = document.getElementById("wordBlank");
         if (wordBlank) {
-            //wordBlank.textContent = "GAME OVER";
             wordBlank.style.display = "block";
+
+            // Update the final score element
+            var finalScoreElement = document.getElementById("final-score");
+            finalScoreElement.textContent = "Your Score: " + timeRemaining;
         }
     }
 }
@@ -40,7 +43,6 @@ function displayChoices(choices) {
         choicesList.appendChild(choiceItem);
     });
 }
-//var myTimeout;
 
 function startGame() {
     questionsContainer.style.display = "block"
@@ -49,7 +51,7 @@ function startGame() {
     // timeRemaining = questions.length * 15;
     timeRemaining = 10;
 
-    // Hide the "GAME OVER" message
+    // Hide the "GAME OVER" message and score display initially
     var wordBlank = document.getElementById("wordBlank");
     if (wordBlank) {
         wordBlank.style.display = "none";
@@ -68,7 +70,6 @@ function startGame() {
                 wordBlank.style.display = "block";
                 //wordBlank.textContent = "GAME OVER";
                 questionsContainer.style.display = "none"
-                //myTimeout = setTimeout(displayHigScorePage, 3000);
 
             }
             // Re-enable the start button when the game is over
@@ -89,8 +90,15 @@ function startGame() {
 }
 
 function displayHighScorePage() {
+    // Get the final score
+    var finalScore = timeRemaining;
+
+    // Set the content of the final score element
+    var finalScoreElement = document.getElementById("final-score");
+    finalScoreElement.textContent = "Your Score: " + finalScore;
+
+    // Navigate to the high scores page
     window.location.href = "highscores.html";
-    //clearTimeout(myTimeout)
 }
 
 // Event listener for choices
@@ -131,8 +139,16 @@ function resetGame() {
     // Enable the Start button
     startBtn.removeAttribute("disabled");
 
+     // Calculate user's score based on the remaining time
+     var userScore = timeRemaining
+
     // Start the game
     startGame();
+
+    var userInitials = {
+        initials: initials.value.trim(),
+        score: userScore
+    };
 }
 
 startBtn.addEventListener("click", function (event) {
@@ -146,16 +162,17 @@ startBtn.addEventListener("click", function (event) {
 });
 
 btnEl.addEventListener("click", function () {
-    var highscores = JSON.parse(localStorage.getItem("highscores"));
-    if(highscores === null) {
-        highscores = []
-    }
+    var highscores = JSON.parse(localStorage.getItem("highscores")) || [];
+
+    // Calculate user's score based on the remaining time
+    var userScore = timeRemaining
+
     var userInitials = {
         initials: initials.value.trim(),
-        // score: userScore.value
-        score:100
-    }
+        score: userScore
+    };
+
     highscores.push(userInitials);
     localStorage.setItem("highscores", JSON.stringify(highscores));
     displayHighScorePage();
-})
+});
