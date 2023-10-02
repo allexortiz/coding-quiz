@@ -77,7 +77,11 @@ function startGame() {
         // Check if we've reached the last question
         if (currentQuestionIndex >= questions.length) {
             clearInterval(timeInterval);
-
+            var wordBlank = document.getElementById("wordBlank");
+            if (wordBlank) {
+                wordBlank.style.display = "block";
+                questionsContainer.style.display = "none";
+            }
             // Re-enable the start button when the game is over
             startBtn.removeAttribute("disabled");
 
@@ -109,25 +113,6 @@ function displayHighScorePage() {
 
     initialsInput.style.display = "block";
     submitButton.style.display = "block";
-
-    // Add an event listener to the submit button
-    submitButton.addEventListener("click", function () {
-        var highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-
-        // Calculate user's score based on the remaining time
-        var userScore = timeRemaining;
-
-        var userInitials = {
-            initials: initialsInput.value.trim(),
-            score: userScore
-        };
-
-        highscores.push(userInitials);
-        localStorage.setItem("highscores", JSON.stringify(highscores));
-
-        // Redirect to the high scores page
-        window.location.href = "highscores.html";
-    });
 }
 
 // Event listener for choices
@@ -200,7 +185,8 @@ startBtn.addEventListener("click", function (event) {
     startGame();
 });
 
-btnEl.addEventListener("click", function () {
+btnEl.addEventListener("click", function (event) {
+    console.log(event);
     var highscores = JSON.parse(localStorage.getItem("highscores")) || [];
 
     // Calculate user's score based on the remaining time
@@ -210,8 +196,9 @@ btnEl.addEventListener("click", function () {
         initials: initials.value.trim(),
         score: userScore
     };
-
+console.log(userInitials);
     highscores.push(userInitials);
+    console.log(highscores);
     localStorage.setItem("highscores", JSON.stringify(highscores));
 
     // Redirect to the high scores page
