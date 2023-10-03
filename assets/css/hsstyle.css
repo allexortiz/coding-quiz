@@ -64,3 +64,24 @@ ol#highscores li {
 #clear-btn:hover {
     background-color: #0056b3;
 }
+
+@media only screen and (max-width: 504px) {
+
+    #highscore-display {
+        width: 80%;
+    }
+
+    h2 {
+        font-size: 40px;
+    }
+
+    ol#highscores li {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
+    #return-btn,
+    #clear-btn {
+        padding: 8px 16px;
+    }
+}
