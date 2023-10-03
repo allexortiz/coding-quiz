@@ -109,10 +109,8 @@ function displayHighScorePage() {
 
     // Display the initials input and submit button
     var initialsInput = document.getElementById("initials");
-    var submitButton = document.getElementById("btn");
 
     initialsInput.style.display = "block";
-    submitButton.style.display = "block";
 }
 
 // Event listener for choices
@@ -123,13 +121,13 @@ choicesList.addEventListener("click", function (event) {
         console.log("User chose:", questions[currentQuestionIndex].Choices[selectedIndex]);
 
         if (questions[currentQuestionIndex].Choices[selectedIndex] !== questions[currentQuestionIndex].Answer) {
-            alertEl.textContent = "Ooops Wrong Answer ";
+            alertEl.textContent = "Oops Wrong Answer!";
             alertEl.style.backgroundColor = "red";
             alertEl.style.color = "blueviolet";
             //reduce your timer count
             timeRemaining -= 15;
         } else {
-            alertEl.textContent = "Oh Correct Answer ";
+            alertEl.textContent = "Correct Answer!";
             alertEl.style.backgroundColor = "green";
             alertEl.style.color = "blueviolet";
         }

@@ -37,7 +37,7 @@ body {
 }
 
 .timer-text {
-    padding: 55px;
+    padding: 25px;
 }
 
 .timer-count {
@@ -73,12 +73,41 @@ main {
     font-size: 200%;
 }
 
+#question-section {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
 #choices-list {
+    list-style: none;
+    padding: 0;
     line-height: 75px;
+}
+
+#choices-list li {
+    background-color: #333;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#choices-list li:hover {
+    background-color: #555;
 }
 
 #wordBlank {
     display: none;
+    text-align: center;
+    font-size: 50px;
+}
+
+#initials {
+    display: block;
+    margin: 0 auto;
+    font-size: 24px;
 }
 
 #alert {
@@ -86,7 +115,8 @@ main {
     padding: 5px;
     text-align: center;
     border-radius: 10px;
-    text-shadow: white 2px 3px ;
+    text-shadow: white 2px 3px;
+    margin: auto;
 }
 
 @media screen and (max-width: 504px) {
